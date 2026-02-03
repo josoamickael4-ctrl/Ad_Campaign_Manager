@@ -74,16 +74,12 @@ export default function CampaignRow({ campaign }: CampaignRowProps) {
 
 
                     <Link href={`/campaigns/${campaign.id || campaign._id}`} className="flex-1 min-w-0 block group/link">
-                        <div className="flex items-center gap-4 mb-2">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${avatarColorClass}`}>
-                                {initial}
-                            </div>
-
-                            <div className="min-w-0 flex items-center">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-3">
                                 <p className="text-[17px] font-semibold text-[#1d1d1f] truncate group-hover/link:text-[#0071e3] transition-colors">
                                     {campaign.name}
                                 </p>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border ml-3 flex-shrink-0 ${campaign.status === 'active' ? 'bg-[#e8f7e9] text-[#1e7e22] border-[#1e7e22]/10' :
+                                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border flex-shrink-0 ${campaign.status === 'active' ? 'bg-[#e8f7e9] text-[#1e7e22] border-[#1e7e22]/10' :
                                     campaign.status === 'paused' ? 'bg-[#fff5e5] text-[#b37400] border-[#b37400]/10' :
                                         'bg-[#f5f5f7] text-[#1d1d1f] border-[#d2d2d7]'
                                     }`}>
@@ -92,14 +88,12 @@ export default function CampaignRow({ campaign }: CampaignRowProps) {
                             </div>
                         </div>
 
-                        <div className="flex items-center text-[13px] text-[#86868b] space-x-4 ml-14 flex-wrap">
+                        <div className="flex items-center text-[13px] text-[#86868b] space-x-4">
                             <span className="font-medium text-[#1d1d1f]">${campaign.budget.toLocaleString('en-US')}</span>
                             <span>&middot;</span>
                             <span className="font-medium text-[#1d1d1f]">
                                 CTR: {campaign.impressions > 0 ? ((campaign.clicks / campaign.impressions) * 100).toFixed(2) : '0.00'}%
                             </span>
-                            <span>&middot;</span>
-                            <span>{campaign.advertiser}</span>
                         </div>
                     </Link>
 

@@ -42,8 +42,8 @@ export default function NewCampaignPage() {
     return (
         <div className="max-w-[700px] mx-auto animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="mb-8 text-center">
-                <h1 className="text-[40px] font-semibold text-[#1d1d1f] tracking-tight leading-tight">New Campaign.</h1>
-                <p className="text-[17px] text-[#86868b] mt-2">Launch your next big idea.</p>
+                <h1 className="text-[40px] font-semibold text-[#1d1d1f] tracking-tight leading-tight">New Campaign</h1>
+
             </div>
 
             {error && (

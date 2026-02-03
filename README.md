@@ -7,46 +7,41 @@ Fullstack technical evaluation project.
 - `backend/`: Node.js + Express + MongoDB API
 - `frontend/`: Next.js + Tailwind CSS UI
 
-## How to Run
+##  Quick Start (How to Run)
 
-### Backend
-1.  Navigate to `backend/`
-2.  Install dependencies: `npm install`
-3.  Start server: `npm run dev` (Runs on port 5000)
+You will need two terminal windows open.
 
-### API Endpoints
-- `POST /campaigns` - Create a new campaign (Validation enabled)
-- `GET /campaigns` - List all campaigns
-  - Optional Query Params: `?page=1&limit=20&status=active`
-- `GET /campaigns/:id` - Get campaign details
-- `PATCH /campaigns/:id/status` - Toggle status (active/paused)
-- `GET /campaigns/:id/stats` - Get campaign statistics (CTR, CPC)
-
-### Frontend
-1.  Navigate to `frontend/`
-2.  Install dependencies: `npm install`
-3.  Start dev server: `npm run dev` (Runs on port 3000)
-4.  **Important**: If updating code, restart `npm run dev` to clear Next.js cache.
-
-## Testing 🧪
-
-The project includes an automated test suite using **Jest** and **Supertest**.
-
+### Terminal 1: Backend (Server)
 ```bash
 cd backend
-npm test
+npm install
+npm run dev
 ```
+*The server will start on http://localhost:5000 and connect to MongoDB (Local or In-Memory)*
 
-This will run a full lifecycle test (Create -> Stats -> Update -> Delete) against an in-memory database.
+### Terminal 2: Frontend (UI)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*The app will be available at http://localhost:3000*
 
-## Tech Choices
+---
 
--   **Backend**: Node.js/Express for simplicity and speed. MongoDB for flexible schema (perfect for campaign data which might evolve).
--   **Frontend**: Next.js (App Router) for modern React patterns and easy routing. Tailwind CSS for rapid styling.
--   **Validation**: Minimal manual validation for simplicity, but easily extensible with Joi or Zod.
+##  Features Implemented (Strictly per Requirements)
+
+- **Backend**: Node.js + Express + MongoDB
+- **Frontend**: Next.js + Tailwind CSS (Simple & Clean UI)
+- **Features**: List, Create, Details, Status Toggle, Calculated Stats (CTR/CPC).
+
+###  Bonus & Best Practices Added
+- **Automated Tests**: Complete Jest/Supertest suite (`cd backend && npm test`).
+- **Validation**: Joi validation for robust data integrity.
+- **Architecture**: Separated Controllers/Routes/Models.
+- **Pagination**: Backend supports `page` and `limit`.
 
 ## Improvements with more time
--   Add TypeScript to backend for type safety.
--   Add extensive unit and integration tests (Jest/Supertest).
--   Dockerize the application for easier deployment.
--   Implement authentication.
+-   Dockerize the application for one-command startup.
+-   Implement Authentication (Login/Signup).
+-   Add graphical charts for statistics.
