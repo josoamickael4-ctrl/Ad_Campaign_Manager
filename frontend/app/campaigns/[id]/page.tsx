@@ -98,20 +98,6 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                 </div>
                 <div className="flex-shrink-0 flex items-center gap-3">
                     <button
-                        onClick={handleDuplicateCampaign}
-                        disabled={duplicating}
-                        className="px-4 py-2.5 text-[15px] font-medium text-[#0071e3] bg-white border border-[#0071e3] rounded-lg hover:bg-[#0071e3]/5 transition-all disabled:opacity-50"
-                    >
-                        {duplicating ? 'Duplicating...' : 'Duplicate'}
-                    </button>
-                    <button
-                        onClick={() => setShowDeleteModal(true)}
-                        disabled={deleting}
-                        className="px-4 py-2.5 text-[15px] font-medium text-white bg-[#ff3b30] hover:bg-[#ff453a] rounded-lg transition-all disabled:opacity-50"
-                    >
-                        {deleting ? 'Deleting...' : 'Delete'}
-                    </button>
-                    <button
                         onClick={handleStatusToggle}
                         disabled={toggling || campaign.status === 'finished'}
                         className={`btn-primary px-6 py-2.5 text-[15px] font-medium whitespace-nowrap transition-all ${campaign.status === 'active' ? '!bg-[#ff9f0a] hover:!bg-[#f59e0b]' :
@@ -174,34 +160,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                 </div>
             </section>
 
-            {showDeleteModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-[20px] shadow-xl max-w-sm w-full p-8 animate-in fade-in zoom-in-95 duration-300">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#ffe5e5] mx-auto mb-4">
-                            <svg className="w-6 h-6 text-[#ff3b30]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                        </div>
-                        <h3 className="text-[21px] font-semibold text-[#1d1d1f] text-center mb-2">Delete Campaign?</h3>
-                        <p className="text-[#86868b] text-center mb-6">This action cannot be undone. The campaign "{campaign.name}" will be permanently deleted.</p>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowDeleteModal(false)}
-                                className="flex-1 px-4 py-2.5 text-[15px] font-medium text-[#1d1d1f] bg-[#f5f5f7] rounded-lg hover:bg-[#e8e8ed] transition-all"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDeleteCampaign}
-                                disabled={deleting}
-                                className="flex-1 px-4 py-2.5 text-[15px] font-semibold text-white bg-[#ff3b30] hover:bg-[#ff453a] rounded-lg transition-all disabled:opacity-50"
-                            >
-                                {deleting ? 'Deleting...' : 'Delete'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+
         </div>
     );
 }

@@ -56,9 +56,8 @@ const seedData = [
 ];
 
 
-async function startServer() {
+async function connectAndSeedDatabase() {
     try {
-
         await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 2000 });
         console.log(' MongoDB Connected (Local/Env)');
     } catch (err) {
@@ -82,4 +81,8 @@ async function startServer() {
     });
 }
 
-startServer();
+if (require.main === module) {
+    connectAndSeedDatabase();
+}
+
+module.exports = app;

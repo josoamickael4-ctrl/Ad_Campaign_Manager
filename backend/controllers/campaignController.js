@@ -1,8 +1,20 @@
 const Campaign = require('../models/Campaign');
+const Joi = require('joi');
 
-// Create a new campaign
+const campaignSchema = Joi.object({
+    name: Joi.string().required(),
+    advertiser: Joi.string().required(),
+    budget: Joi.number().min(0).required(),
+    startDate: Joi.date().required(),
+    endDate: Joi.date().greater(Joi.ref('startDate')).required(),
+    status: Joi.string().valid('active', 'paused', 'finished').default('paused')
+});
+
 exports.createCampaign = async (req, res) => {
     try {
+        const { error } = campaignSchema.validate(req.body);
+        if (error) return res.status(400).json({ error: error.details[0].message });
+
         const campaign = new Campaign(req.body);
         await campaign.save();
         res.status(201).json(campaign);
@@ -11,17 +23,24 @@ exports.createCampaign = async (req, res) => {
     }
 };
 
-// Get all campaigns
 exports.getCampaigns = async (req, res) => {
     try {
-        const campaigns = await Campaign.find().sort({ createdAt: -1 });
+        const { page = 1, limit = 20, status } = req.query;
+        const query = {};
+        if (status) query.status = status;
+
+        const campaigns = await Campaign.find(query)
+            .sort({ createdAt: -1 })
+            .limit(limit * 1)
+            .skip((page - 1) * limit);
+
+        // Optional: Return count if needed, but keeping array response for current frontend compatibility
         res.status(200).json(campaigns);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-// Get campaign details
 exports.getCampaign = async (req, res) => {
     try {
         const campaign = await Campaign.findById(req.params.id);
@@ -34,7 +53,8 @@ exports.getCampaign = async (req, res) => {
     }
 };
 
-// Update campaign status
+
+
 exports.updateStatus = async (req, res) => {
     try {
         const { status } = req.body;
@@ -55,7 +75,6 @@ exports.updateStatus = async (req, res) => {
     }
 };
 
-// Get campaign stats
 exports.getStats = async (req, res) => {
     try {
         const campaign = await Campaign.findById(req.params.id);
@@ -79,43 +98,5 @@ exports.getStats = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
-    }
-};
-// Delete a campaign
-exports.deleteCampaign = async (req, res) => {
-    try {
-        const campaign = await Campaign.findByIdAndDelete(req.params.id);
-        if (!campaign) {
-            return res.status(404).json({ error: 'Campaign not found' });
-        }
-        res.status(200).json({ message: 'Campaign deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-// Duplicate a campaign
-exports.duplicateCampaign = async (req, res) => {
-    try {
-        const campaign = await Campaign.findById(req.params.id);
-        if (!campaign) {
-            return res.status(404).json({ error: 'Campaign not found' });
-        }
-
-        // Create a new campaign with copied data
-        const newCampaign = new Campaign({
-            name: `${campaign.name} (Copy)`,
-            advertiser: campaign.advertiser,
-            budget: campaign.budget,
-            startDate: campaign.startDate,
-            endDate: campaign.endDate,
-            status: 'paused',
-            impressions: 0,
-            clicks: 0
-        });
-        await newCampaign.save();
-        res.status(201).json(newCampaign);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
     }
 };
